@@ -33,20 +33,8 @@ public class LoginPage {
     }
 
     // Method to click on "Force Logout"
-    public void forceLogout(String forceLogoutXPath) {
-        //wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(forceLogoutXPath))).click();
-        try {
-            // Wait for the checkbox to be visible
-            WebElement checkbox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(forceLogoutXPath)));
-            checkbox.click();
-            // Interact with the checkbox
-            if (!checkbox.isSelected()) {  // Check if it is not already selected
-                checkbox.click();  // Click to select the checkbox
-            }
-        } catch (Exception e) {
-            System.out.println("Checkbox was not found or could not be interacted with: " + e.getMessage());
-        }
-
+    public void forceLogout() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("forcelogout"))).click();
     }
 
     // Method to click on login button

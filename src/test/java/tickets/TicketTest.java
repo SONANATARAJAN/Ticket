@@ -5,10 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.Events;
-import pages.Incident;
-import pages.Problem;
-import pages.RequestFulfillment;
+import pages.*;
 
 import java.time.Duration;
 import java.util.List;
@@ -42,7 +39,7 @@ public class TicketTest {
         }
     }
 
-    public void testTicketTypeSelection(String ticketType) {
+    public void testTicketTypeSelection(String ticketType) throws InterruptedException {
         switch (ticketType) {
             case "Event":
                 Events eventsTicket = new Events(driver);
@@ -75,6 +72,10 @@ public class TicketTest {
                         "Email", "London", "Testing",
                         "MSP1+1 Testing", "London", "P1" , "RequestFulfilment_Demo",   "src/test/resources/upload_files/empty.xls"
                 );
+            case "Change":
+                Change change=new Change(driver);
+                change.changettcreation("Email","ABU TALAT","Circuit Change","Group of Ciruits","AT&T","EIG/BCT/MON/10G/A0864",
+                        "General","High","Traffic affecting","P1","High","create change tt","src/test/resources/upload_files/empty.xls");
 
             default:
                 System.out.println("Invalid ticket type: " + ticketType);

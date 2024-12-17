@@ -15,117 +15,33 @@ import java.util.List;
 public class Incident {
     private WebDriverWait wait;
     public WebDriver driver;
+    private final utils.WebDriverManager webDriverManager;
     public Incident(WebDriver driver) {
         this.driver=driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(50)); // Set timeout
+        this.webDriverManager = new utils.WebDriverManager(driver);
     }
 
     public void modeOfRequest(String ModeofRequest) {
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(XPathProvider.ImodeOfRequest))).click();
-        List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(XPathProvider.commonDropSelect)));
-        String criteria = ModeofRequest;
-        boolean optionFound = false;
-        for (WebElement option : options) {
-            String optionText = option.getText();
-            if (optionText.equalsIgnoreCase(criteria)) {
-                option.click();
-                optionFound = true;
-                break;
-            }
-        }
-        if (!optionFound) {
-            System.out.println("Option not found for criteria: " + criteria);
-        }
+        webDriverManager.dropDownSelect(XPathProvider.ImodeOfRequest,ModeofRequest);
     }
 
     public void station(String Station) {
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath( XPathProvider.IstationXpath))).click();
-        List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(XPathProvider.commonDropSelect)));
-        String criteria = Station;
-        boolean optionFound = false;
-        for (WebElement option : options) {
-            String optionText = option.getText();
-             if (optionText.equalsIgnoreCase(criteria)) {
-                option.click();
-                optionFound = true;
-                break;
-            }}
-        if (!optionFound) {
-            System.out.println("Option not found for criteria: " + criteria);
-        }
+        webDriverManager.dropDownSelect(XPathProvider.IstationXpath,Station);
     }
-
-    public void reportedTime(){
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
-        webDriverManager.visibleMethod((XPathProvider.reportedTime));
-        Actions action=new Actions(driver);
-        action.sendKeys(Keys.ENTER).perform();
-    }
-
     public void classification(String Classification) {
-         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(XPathProvider.Iclassification))).click();
-         List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(XPathProvider.commonDropSelect)));
-         String criteria = Classification;
-         boolean optionFound = false;
-         for (WebElement option : options) {
-            String optionText = option.getText();
-             if (optionText.equalsIgnoreCase(criteria)) {
-                option.click();
-                optionFound = true;
-                break;
-            }}
-        if (!optionFound) {
-            System.out.println("Option not found for criteria: " + criteria);
-        }}
+        webDriverManager.dropDownSelect(XPathProvider.Iclassification,Classification);
+    }
 
     public void subClassification(String SubClassification) {
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath( XPathProvider.IsubClassificationXpath))).click();
-         List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(XPathProvider.commonDropSelect)));
-         String criteria = SubClassification;
-         boolean optionFound = false;
-         for (WebElement option : options) {
-            String optionText = option.getText();
-             if (optionText.equalsIgnoreCase(criteria)) {
-                option.click();
-                optionFound = true;
-                break;
-            }}
-        if (!optionFound) {
-            System.out.println("Option not found for criteria: " + criteria);
-        }
+        webDriverManager.dropDownSelect(XPathProvider.IsubClassificationXpath,SubClassification);
     }
 
     public void partyName(String PartyName) {
-         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(XPathProvider.IpartyName))).click();
-         List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(XPathProvider.commonDropSelect)));
-         String criteria = PartyName;
-         boolean optionFound = false;
-         for (WebElement option : options) {
-            String optionText = option.getText();
-             if (optionText.equalsIgnoreCase(criteria)) {
-                option.click();
-                optionFound = true;
-                break;
-            }}
-        if (!optionFound) {
-            System.out.println("Option not found for criteria: " + criteria);
-        }
+        webDriverManager.dropDownSelect(XPathProvider.IpartyName,PartyName);
     }
     public void circuits(String Circuits){
-         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(XPathProvider.Icircuit))).click();
-         List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(XPathProvider.commonDropSelect)));
-         String criteria = Circuits;
-         boolean optionFound = false;
-         for (WebElement option : options) {
-            String optionText = option.getText();
-             if (optionText.equalsIgnoreCase(criteria)) {
-                option.click();
-                optionFound = true;
-                break;
-            }}
-        if (!optionFound) {
-            System.out.println("Option not found for criteria: " + criteria);
-        }
+        webDriverManager.dropDownSelect(XPathProvider.Icircuit,Circuits);
     }
 
   /*  public void ProtectionStatus() {
@@ -138,79 +54,14 @@ public class Incident {
         }} */
 
     public void priority(String Priority){
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath(XPathProvider.IperiorityXpath))).click();
-        List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(XPathProvider.commonDropSelect)));
-        String criteria = Priority;
-        boolean optionFound = false;
-        for (WebElement option : options) {
-            String optionText = option.getText();
-            if (optionText.equalsIgnoreCase(criteria)) {
-                option.click();
-                optionFound = true;
-                break;
-            }
-        }
-        if (!optionFound) {
-            System.out.println("Option not found for criteria: " + criteria);
-        }
+        webDriverManager.dropDownSelect(XPathProvider.IperiorityXpath,Priority);
     }
     public void severity(String Severity){
-         wait.until(ExpectedConditions.elementToBeClickable(By.xpath( XPathProvider.Isevrity))).click();
-         List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(XPathProvider.commonDropSelect)));
-         String criteria = Severity;
-         boolean optionFound = false;
-         for (WebElement option : options) {
-            String optionText = option.getText();
-             if (optionText.equalsIgnoreCase(criteria)) {
-                option.click();
-                optionFound = true;
-                break;
-            }}
-        if (!optionFound) {
-            System.out.println("Option not found for criteria: " + criteria);
-        }
+        webDriverManager.dropDownSelect(XPathProvider.Isevrity,Severity);
     }
 
     public void urgency(String Urgency){
-         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(XPathProvider.Iurgencyxpath))).click();
-         List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(XPathProvider.commonDropSelect)));
-         String criteria = Urgency;
-         boolean optionFound = false;
-         for (WebElement option : options) {
-            String optionText = option.getText();
-             if (optionText.equalsIgnoreCase(criteria)) {
-                option.click();
-                optionFound = true;
-                break;
-            }
-        }
-        if (!optionFound) {
-            System.out.println("Option not found for criteria: " + criteria);
-        }
-    }
-    public void subject(String Subject){
-        WebElement inputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(XPathProvider.subjectInput)));
-        inputField.clear();
-        inputField.sendKeys(Subject); // Input the value
-        System.out.println("Value inputted: " + Subject);
-    }
-    public void Attachments(String filePath) {
-        String filEPath = System.getProperty("user.dir") + "/" + filePath;
-        System.out.println(filEPath);
-        WebElement uploadElement = wait.until(ExpectedConditions.elementToBeClickable(By.id(XPathProvider.attachment)));
-        uploadElement.sendKeys(filEPath);
-    }
-    public void linketTicket(){
-        WebElement ele = driver.findElement(By.xpath("//div[@id='s2id_LinkedTicket']"));
-        ele.click();
-        WebElement sk =  driver.findElement(By.xpath("//input[@id='s2id_autogen8_search']"));
-        sk.sendKeys("EIG-TT");
-        WebElement option = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='select2-results']//li[1]/div")));
-        option.click();
-    }
-
-    public void Submit(){
-        wait.until(ExpectedConditions.elementToBeClickable(By.id(XPathProvider.submit))).click();
+        webDriverManager.dropDownSelect(XPathProvider.Iurgencyxpath,Urgency);
     }
     public void createIncident(  String modeOfRequest, String station,
                                String classification, String SubClassification,String PartyName,String  Circuits , String severity, String priority,
@@ -219,7 +70,7 @@ public class Incident {
 
         modeOfRequest(modeOfRequest);
         station(station);
-        reportedTime();
+        webDriverManager.reportedTime();
         classification(classification);
         subClassification(SubClassification);
         partyName(PartyName);
@@ -228,11 +79,11 @@ public class Incident {
         severity(severity);
         priority(priority);
         urgency(urgency);
-        subject(Subject);
-        linketTicket();
+        webDriverManager.subjectInput(Subject);
+        webDriverManager.linketTicket();
         // Upload the files
-       Attachments(filePath);
-        Submit();
+        webDriverManager.Attachments(filePath);
+        webDriverManager.Submit();
     }
 
 }

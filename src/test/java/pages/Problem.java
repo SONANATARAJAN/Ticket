@@ -13,9 +13,13 @@ import java.util.List;
 public class Problem {
     private WebDriverWait wait;
     public WebDriver driver;
+    private final utils.WebDriverManager webDriverManager;
+
     public Problem(WebDriver driver) {
         this.driver=driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(50)); // Set timeout
+        this.webDriverManager = new utils.WebDriverManager(driver);
+
     }
 
 
