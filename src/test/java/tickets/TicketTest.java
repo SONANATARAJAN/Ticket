@@ -16,18 +16,19 @@ import static utils.XPathProvider.dropdownXPath;
 public class TicketTest {
     private final WebDriver driver;
     private final WebDriverWait wait;
+    private final utils.WebDriverManager webDriverManager;
 
     // Constructor to initialize WebDriver and WebDriverWait
     public TicketTest(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.webDriverManager=new utils.WebDriverManager(driver);
     }
     public void selectDropdownOption(String ticketType) {
         WebElement selectDropDown = driver.findElement(By.xpath(dropdownXPath));
         selectDropDown.click();
-        List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//ul[@id='select2-results-1']/li")));
+        List<WebElement> options = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//ul[@class='select2-results']//li")));
         boolean optionFound = false;
-
         for (WebElement option : options) {
             if (option.getText().equalsIgnoreCase(ticketType)) {
                 option.click();

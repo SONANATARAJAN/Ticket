@@ -75,7 +75,7 @@ public void severity(String Severity){
         categoryInput(category);
         webDriverManager.subjectInput(subjectInput);
         notifyToIRU();
-        webDriverManager.linketTicket();
+      //  webDriverManager.linketTicket();
         NotifyToIRUwithAttachment();
         // Upload the files
         webDriverManager.Attachments(filePath);

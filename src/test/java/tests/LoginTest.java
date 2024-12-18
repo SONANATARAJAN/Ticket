@@ -34,6 +34,7 @@ public class LoginTest extends BaseTest {
 
             TicketProcessStage ticketProcessStage=new TicketProcessStage(driver);
             ticketProcessStage.EventProcessStage(ticketType);
+
             //ticketProcessStage.RequestFulfilmentStage(ticketType);*/
             /*NewTicket ticket = new NewTicket(driver);
             ticket.newTicketClick(XPathProvider.newTicketXPath);

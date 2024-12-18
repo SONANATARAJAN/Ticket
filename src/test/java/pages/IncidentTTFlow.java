@@ -15,10 +15,13 @@ import java.time.Duration;
 public class IncidentTTFlow {
     private  WebDriverWait wait;
     public WebDriver driver;
+    private final utils.WebDriverManager webDriverManager;
+
 
     public IncidentTTFlow(WebDriver driver) {
         this.driver=driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(70));
+        this.webDriverManager=new utils.WebDriverManager(driver);
     }
 
     public void returnToTTpage() throws InterruptedException {
@@ -28,7 +31,6 @@ public class IncidentTTFlow {
         processStage.Select_TTtoPickup();
     }
     public void resolutionverify_yes() throws InterruptedException {
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         webDriverManager.clickElement ("//input[@id='causeIdentifiedCheckBox']");
         webDriverManager.submitTicket();
         webDriverManager.resolveYes();
@@ -45,7 +47,6 @@ public class IncidentTTFlow {
     }
     //1
     public void resolutionverify_yes_resolve() throws InterruptedException {
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         resolutionverify_yes();
         //resolution verification status closure
         //resolved
@@ -54,7 +55,6 @@ public class IncidentTTFlow {
     }
     //2
     public void resolutionverify_yes_notResolve() throws InterruptedException {
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         resolutionverify_yes();
         //Notresolved Default
         webDriverManager.submitTicket();
@@ -66,7 +66,6 @@ public class IncidentTTFlow {
     //3
     public void resolutionverify_no_noc_yes_resolve() throws InterruptedException {
         //continue with above method "resolutionverify_yes_notResolve" donot craete new tt
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         webDriverManager.clickElement( ("//input[@id='causeIdentifiedCheckBox']"));
         webDriverManager.submitTicket();
         //no -default
@@ -82,7 +81,6 @@ public class IncidentTTFlow {
     }
     //4
     public void resolutionverify_no_noc_yes_notResolve() throws InterruptedException{
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         webDriverManager.clickElement( "//input[@id='causeIdentifiedCheckBox']");
         webDriverManager.submitTicket();
         //no -default
@@ -97,7 +95,6 @@ public class IncidentTTFlow {
     }
     //call
     public void resolutionverify_no_noc_no_withoutV() throws InterruptedException {
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         webDriverManager.clickElement( ("//input[@id='causeIdentifiedCheckBox']"));
         webDriverManager.submitTicket();
         //no -default
@@ -120,7 +117,6 @@ public class IncidentTTFlow {
     public void resolutionverify_no_noc_no_withoutV_resolved() throws InterruptedException{
         resolutionverify_no_noc_no_withoutV();
         //resolved
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         webDriverManager.resolved();
         webDriverManager.submitTicket();
     }
@@ -128,12 +124,10 @@ public class IncidentTTFlow {
     public void resolutionverify_no_noc_no_withoutV_notResolved()throws InterruptedException{
         resolutionverify_no_noc_no_withoutV();
         //default notresolved
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         webDriverManager.submitTicket();
     }
     //7
     public void resolutionverify_no_noc_no_withV() throws InterruptedException{
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         webDriverManager.clickElement( ("//input[@id='causeIdentifiedCheckBox']"));
         webDriverManager.submitTicket();
         //no -default
@@ -150,7 +144,6 @@ public class IncidentTTFlow {
     }
     //call
     public void resolutionverify_no_others_withoutTP() throws InterruptedException {
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         webDriverManager.clickElement( ("//input[@id='causeIdentifiedCheckBox']"));
         webDriverManager.submitTicket();
         //no -default
@@ -170,7 +163,6 @@ public class IncidentTTFlow {
     public void resolutionverify_no_others_withoutTP_resolved() throws InterruptedException {
         resolutionverify_no_others_withoutTP();
         //resolved
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         webDriverManager.resolved();
 
     }

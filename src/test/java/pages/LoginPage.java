@@ -13,11 +13,13 @@ import java.time.Duration;
 public class LoginPage {
     public WebDriver driver;
     public WebDriverWait wait;
+    private final utils.WebDriverManager webDriverManager;
 
     // Constructor
     public LoginPage(WebDriver driver) {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         this.driver = driver;
+        this.webDriverManager=new utils.WebDriverManager(driver);
     }
 
     // Method to enter username
@@ -49,7 +51,6 @@ public class LoginPage {
     // Method to handle trouble ticket
     public void troubleTicket() {
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
             WebElement ticket = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='topmenubar']//li//a[@id='tt_menu_1']")));
             ticket.click();

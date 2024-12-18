@@ -15,15 +15,16 @@ import java.time.Duration;
 public class EventTTFlow {
     private WebDriverWait wait;
     public WebDriver driver;
+    private final utils.WebDriverManager webDriverManager;
 
     public EventTTFlow(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.webDriverManager = new utils.WebDriverManager(driver);
     }
     //call
     public void ProblemResolved() throws InterruptedException {
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
-        //Problem Resolve
+         //Problem Resolve
         webDriverManager.clickElement(XPathProvider.problemResolve1);
         webDriverManager.clickElement(XPathProvider.problemResolve2);
         webDriverManager.submitTicket();
@@ -33,17 +34,16 @@ public class EventTTFlow {
     }
     //1
 public void resoluationVeriFyStatus_yes() throws InterruptedException {
-    WebDriverManager webDriverManager=new WebDriverManager(driver);
-    webDriverManager.clickElement(XPathProvider.causeIdentificationXpath);
-    webDriverManager.submitTicket();
-    webDriverManager.resolveYes();
-    Thread.sleep(5000);
-    ProblemResolved();
+        webDriverManager.clickElement(XPathProvider.causeIdentificationXpath);
+        webDriverManager.submitTicket();
+        webDriverManager.resolveYes();
+        webDriverManager.submitTicket();
+        Thread.sleep(5000);
+        ProblemResolved();
 
 }
 //call
 public void resoluationVeriFyStatus_no_noc() throws InterruptedException {
-    WebDriverManager webDriverManager=new WebDriverManager(driver);
     webDriverManager.clickElement(XPathProvider.causeIdentificationXpath);
     webDriverManager.submitTicket();
     Thread.sleep(5000);
@@ -51,18 +51,18 @@ public void resoluationVeriFyStatus_no_noc() throws InterruptedException {
     //noc
     webDriverManager.clickElement("//div[@id='incidentBoundarycheck']//a[text()='NOC']");
     webDriverManager.submitTicket();
+    Thread.sleep(5000);
 }
 //2
 public void resoluationVeriFyStatus_no_noc_yes() throws InterruptedException {
-    WebDriverManager webDriverManager=new WebDriverManager(driver);
-    resoluationVeriFyStatus_no_noc();
+        resoluationVeriFyStatus_no_noc();
     webDriverManager.resolveYes();
+    webDriverManager.submitTicket();
     ProblemResolved();
     Thread.sleep(4000);
 }
 //3
 public void resoluationVeriFyStatus_no_noc_no_withoutV() throws InterruptedException{
-    WebDriverManager webDriverManager=new WebDriverManager(driver);
     resoluationVeriFyStatus_no_noc();
     webDriverManager.submitTicket();
     webDriverManager.clickElement("//input[@id='supplierInvolmentCheckBox']");
@@ -72,43 +72,49 @@ public void resoluationVeriFyStatus_no_noc_no_withoutV() throws InterruptedExcep
 }
 //4
 public void resoluationVeriFyStatus_no_noc_no_withV() throws InterruptedException{
-    WebDriverManager webDriverManager=new WebDriverManager(driver);
-    resoluationVeriFyStatus_no_noc();
-    webDriverManager.submitTicket();
+        resoluationVeriFyStatus_no_noc();
+        Thread.sleep(3000);
+        webDriverManager.submitTicket();
     webDriverManager.clickElement("//button[@id='ReferVendor']");
-    //bug
+    //refer to third party
+    webDriverManager.selectByVisibleText("//select[@id='refertoGroup']","Tyco");
+    webDriverManager.sendkeys("//textarea[@id='description']","Description");
+    webDriverManager.clickElement("//button[@id='Submit' and text()='Create Ticket']");
+    Thread.sleep(5000);
+    webDriverManager.clickElement("//input[@id='supplierInvolmentCheckBox']");
+    webDriverManager.submitTicket();
+    ProblemResolved();
     }
 //call
 public void resoluationVeriFyStatus_no_others() throws InterruptedException{
-    WebDriverManager webDriverManager=new WebDriverManager(driver);
-    webDriverManager.clickElement(XPathProvider.causeIdentificationXpath);
+        webDriverManager.clickElement(XPathProvider.causeIdentificationXpath);
     webDriverManager.submitTicket();
-    Thread.sleep(3000);
+    Thread.sleep(5000);
     webDriverManager.submitTicket();
+    Thread.sleep(5000);
+
+
 }
 //5
     public void resoluationVeriFyStatus_no_others_without()throws InterruptedException{
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         resoluationVeriFyStatus_no_others();
+        webDriverManager.submitTicket();
         webDriverManager.clickElement("//input[@id='thirdPartyInvolmentCheckBox']");
         webDriverManager.submitTicket();
         ProblemResolved();
     }
     //6
     public void resoluationVeriFyStatus_no_others_with() throws InterruptedException{
-        WebDriverManager webDriverManager=new WebDriverManager(driver);
         resoluationVeriFyStatus_no_others();
-        webDriverManager.clickElement("//button[@id='Submit' and text()='Refer To Third Party']");
-       WebElement selectdrp= driver.findElement(By.xpath("//select[@id='station']"));
-       Select drp=new Select(selectdrp);
-       drp.selectByValue("LONDON");
-       //refertoGroup
-        WebElement selectdrop= driver.findElement(By.xpath("//select[@id='refertoGroup']"));
-        Select drop=new Select(selectdrop);
-        drp.selectByValue("LONDON");
-        drop.selectByValue("Cable Station Staff");
         webDriverManager.submitTicket();
-        //bug
-
+        webDriverManager.clickElement("//button[@id='Submit' and text()='Refer To Third Party']");
+        webDriverManager.selectByVisibleText("//select[@id='station']","LONDON");
+        webDriverManager.sendkeys("//textarea[@id='description']","Description");
+        //refertoGroup
+        webDriverManager.selectByVisibleText("//select[@id='refertoGroup']","Cable Station Staff");
+        webDriverManager.clickElement("//button[@id='Submit' and text()='Create Ticket']");
+        webDriverManager.clickElement("//input[@id='thirdPartyInvolmentCheckBox']");
+        webDriverManager.submitTicket();
+        ProblemResolved();
     }
 }
