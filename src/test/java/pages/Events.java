@@ -24,6 +24,7 @@ public class Events {
     }
     public void station(String Station){
         webDriverManager.dropDownSelect(XPathProvider.EstationXpath,Station);
+        webDriverManager.dropDownSelect("//div[@id='s2id_EventEquipmentStationName']/a",Station);
     }
 
     public void classification(String Classification){
@@ -32,6 +33,7 @@ public class Events {
     public void subClassification(String SubClassification){
         webDriverManager.dropDownSelect(XPathProvider.EsubClassificationXpath,SubClassification);
     }
+
 public void severity(String Severity){
         webDriverManager.dropDownSelect(XPathProvider.Esevrity,Severity);
 }
@@ -64,10 +66,10 @@ public void severity(String Severity){
                              String filePath) {
 
         modeOfRequest(modeOfRequest);
-        station(station);
         webDriverManager.reportedTime();
         classification(classification);
         subClassification(subClassification);
+        station(station);
         severity(severity);
         periority(priority);
         urgency(urgency);
@@ -81,6 +83,7 @@ public void severity(String Severity){
         webDriverManager.Attachments(filePath);
         ImpactedCircuitAttachment(filePath);
         webDriverManager.Submit();
+        webDriverManager.clickElement("//button[@id='Yes' and text()='Yes']");
     }
 
 }

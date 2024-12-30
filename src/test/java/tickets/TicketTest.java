@@ -73,10 +73,6 @@ public class TicketTest {
                         "Email", "London", "Testing",
                         "MSP1+1 Testing", "London", "P1" , "RequestFulfilment_Demo",   "src/test/resources/upload_files/empty.xls"
                 );
-            case "Change":
-                Change change=new Change(driver);
-                change.changettcreation("Email","ABU TALAT","Circuit Change","Group of Ciruits","AT&T","EIG/BCT/MON/10G/A0864",
-                        "General","High","Traffic affecting","P1","High","create change tt","src/test/resources/upload_files/empty.xls");
 
             default:
                 System.out.println("Invalid ticket type: " + ticketType);

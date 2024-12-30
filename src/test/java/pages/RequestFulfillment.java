@@ -17,7 +17,6 @@ public class RequestFulfillment {
     public RequestFulfillment(WebDriver driver) {
         this.driver=driver;
         this.webDriverManager = new utils.WebDriverManager(driver);
-
     }
 
     public void modeOfRequest(String ModeofRequest) {
@@ -28,7 +27,6 @@ public class RequestFulfillment {
         webDriverManager.dropDownSelect(XPathProvider.RstationXpath,Station);
     }
 
-
     public void classification(String Classification) {
         webDriverManager.dropDownSelect(XPathProvider.Rclassification,Classification);
     }
@@ -37,7 +35,7 @@ public class RequestFulfillment {
         webDriverManager.dropDownSelect(XPathProvider.RsubClassificationXpath,SubClassification);
     }
     public void staionName(String StationName){
-        webDriverManager.dropDownSelect(XPathProvider.RstationXpath,StationName);
+        webDriverManager.dropDownSelect(XPathProvider.RstionName,StationName);
     }
 
     public void priority(String Priority) {
@@ -56,10 +54,9 @@ public class RequestFulfillment {
             staionName(StationName);
             priority(priority);
             webDriverManager.subjectInput(Subject);
-            webDriverManager.linketTicket();
+          //  webDriverManager.linketTicket();
             // Upload the files
             webDriverManager.Attachments(filePath);
-            webDriverManager.linketTicket();
-            webDriverManager.Submit();
+             webDriverManager.Submit();
         }}
 

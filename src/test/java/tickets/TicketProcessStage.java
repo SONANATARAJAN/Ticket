@@ -14,26 +14,31 @@ public class TicketProcessStage {
     }
     public void EventProcessStage(String ticketType) throws InterruptedException {
         TicketAction ticketAction=new TicketAction(driver);
-        ticketAction.executeTicketProcess(ticketType);
         EventTTFlow eventTTFlow=new EventTTFlow(driver);
         //1
+        System.out.println("case 1");
+        ticketAction.executeTicketProcess(ticketType);
         eventTTFlow.resoluationVeriFyStatus_yes();
-        Thread.sleep(5000);
         //2
+        System.out.println("case 2");
         ticketAction.executeTicketProcess(ticketType);
         eventTTFlow.resoluationVeriFyStatus_no_noc_yes();
         //3
+        System.out.println("case 3");
         ticketAction.executeTicketProcess(ticketType);
         eventTTFlow.resoluationVeriFyStatus_no_noc_no_withoutV();
         //4
-        //ticketAction.executeTicketProcess(ticketType);
-        //eventTTFlow.resoluationVeriFyStatus_no_noc_no_withV();     //bug
-        //5
+        System.out.println("case 4");
+        ticketAction.executeTicketProcess(ticketType);
+        eventTTFlow.resoluationVeriFyStatus_no_noc_no_withV();
+//        //5
+        System.out.println("case 5");
         ticketAction.executeTicketProcess(ticketType);
         eventTTFlow.resoluationVeriFyStatus_no_others_without();
         //6
-        //ticketAction.executeTicketProcess(ticketType);
-        // eventTTFlow.resoluationVeriFyStatus_no_others_with();   //bug
+        System.out.println("case 6");
+        ticketAction.executeTicketProcess(ticketType);
+         eventTTFlow.resoluationVeriFyStatus_no_others_with();
     }
     public void IncidentProcessStage(String ticketType) throws InterruptedException{
         IncidentTTFlow incidentTTFlow=new IncidentTTFlow(driver);
@@ -71,7 +76,15 @@ public class TicketProcessStage {
         RequestFulfilmentTTFlow requestFulfilmentTTFlow=new RequestFulfilmentTTFlow(driver);
         //1
         ticketAction.executeTicketProcess(ticketType);
-        requestFulfilmentTTFlow.AprovalReq_yes();
+        requestFulfilmentTTFlow.AprovalReq_no_applicable_yes();
+        //2
+        ticketAction.executeTicketProcess(ticketType);
+        requestFulfilmentTTFlow.AprovalReq_no_applicable_no();
+        //3
+        ticketAction.executeTicketProcess(ticketType);
+        requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_no();
+        //4
+         requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_processReq();
 
 
     }

@@ -6,7 +6,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.XPathProvider;
-
 import java.time.Duration;
 import java.util.Scanner;
 
@@ -21,12 +20,10 @@ public class Change {
 
     }
     public void waituntilpageload() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("super-ac-wrapper")));
     }
 
     public void elementToBeClickable(String locatorvalue) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(locatorvalue)));
         actions(element);
@@ -51,25 +48,7 @@ public class Change {
             System.out.println(list.getText());
             waituntilpageload();
         }
-        getinput(ttlist);
         waituntilpageload();
-    }
-
-    public void getinput(Select ttlist) {
-        // Prompt user for input
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Please enter the ticket type you want to select: ");
-        String userInput = scanner.nextLine();
-        // Select the desired option based on user input
-        boolean optionFound = false;
-        for (WebElement option : ttlist.getOptions()) {
-            if (option.getText().equalsIgnoreCase(userInput)) {
-                ttlist.selectByVisibleText(option.getText());
-                optionFound = true;
-                System.out.println("Selected: " + option.getText());
-                break;
-            }
-        }
     }
 
     public  void verifySelectedDropdownValue(String locatorvalue, String value) throws InterruptedException {
@@ -92,7 +71,7 @@ public class Change {
     }
 
     public  void selectByVisibleText(String locatorvalue, String value) throws InterruptedException {
-        WebElement dropdown = driver.findElement(By.xpath(locatorvalue));
+        WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(locatorvalue)));
         Select dd =  new Select(dropdown);
         dd.selectByVisibleText(value);
         String ddtext = dd.getFirstSelectedOption().getText();
@@ -100,17 +79,7 @@ public class Change {
         Thread.sleep(500);
     }
 
-    public void selectByIndex(String locatorvalue, int value) throws InterruptedException {
-        WebElement dropdown = driver.findElement(By.xpath(locatorvalue));
-        Select dd =  new Select(dropdown);
-        dd.selectByIndex(value);
-        String ddtext = dd.getFirstSelectedOption().getText();
-        System.out.println("Selected option: "+ ddtext);
-        Thread.sleep(500);
-    }
-
     public void enterkeys(String locatorvalue) throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locatorvalue)));
         element.sendKeys(Keys.ENTER);
         System.out.println(element.getAccessibleName() + ": " + element.isDisplayed());
@@ -131,11 +100,7 @@ public class Change {
     }
 
 
-    public  void ttpage() {
-        elementToBeClickable("//div[@id='topmenubar']//li//a[@id='tt_menu_1']");
-        elementToBeClickable("//div[@id='tt_menu_1_submenu']//li//a[text()='Open Tickets']");
-    }
-    public void changettcreation(String modeOfRequest,String Station,String Classification,String SubClassification,String AffectedParties,String AffectedCircuitList
+    public void createChange(String modeOfRequest,String Station,String Classification,String SubClassification,String AffectedParties,String AffectedCircuitList
     ,String triggeredBy,String imapactRisk,String ChangeImpact,String periority,String Urgency,
                                  String subject,String filePath) throws InterruptedException {
 
@@ -147,8 +112,8 @@ public class Change {
 
         selectByVisibleText("//select[@id='ChangeClassification']", Classification);
         selectByVisibleText("//select[@id='ChangeSubClassification']", SubClassification);
-        selectByVisibleText("//select[@id='AffectedParties']", AffectedParties);
-        selectByVisibleText("//select[@id='AffectedCircuitList']", AffectedCircuitList);
+//        selectByVisibleText("//select[@id='AffectedParties']", AffectedParties);
+//        selectByVisibleText("//select[@id='AffectedCircuitList']", AffectedCircuitList);
 
         enterkeys("//input[@id='startTime1']");
         enterkeys("//input[@id='endTime1']");
@@ -166,8 +131,10 @@ public class Change {
 
         sendkeys("//input[@id='subject']", subject);
         sendkeys("//div[@class='note-editable']",  subject);
-
+Thread.sleep(3000);
         Attachments("//input[@id='TestPlanAttachments']", filePath);
+        Thread.sleep(3000);
+
         Attachments("//input[@id='FallbackPlanAttachments']", filePath);
         Attachments("//input[@id='SecurityImpactAttachments']", filePath);
         Attachments("//input[@id='Attachments']", filePath);

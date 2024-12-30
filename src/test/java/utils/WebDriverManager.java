@@ -1,5 +1,6 @@
 package utils;
 
+import base.BrowserManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -10,18 +11,26 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.LoginPage;
+import tickets.ProcessStage;
 
 import java.time.Duration;
 import java.util.List;
 
 public class WebDriverManager {
+    private BrowserManager browserManager = new BrowserManager();
     public WebDriver driver;
     public WebDriverWait wait;
+    private WebDriver normalDriver;
+    private WebDriver incognitoDriver;
+
     public WebDriverManager(WebDriver driver){
         this.driver=driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(70));
     }
-     public void clickMethod(String locator){
+
+
+    public void clickMethod(String locator){
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(locator))).click();
      }
      public void visibleMethod(String locator){
@@ -46,7 +55,45 @@ public class WebDriverManager {
     //Request Fulfilment
     public void approvalRequest_Yes(){
         clickElement("//div[@id='approvalRequestCheckBox']//a[text()='Yes']");
+        submitTicket();
     }
+    public void validateRequestCheckBox_yes(){
+        clickElement("//div[@id='validateRequestCheckBox']//a[text()='Yes']");
+        submitTicket();
+
+    }
+    public void Logout(){
+        clickElement("//a[@id='userIcon']//label[@id='image-checkbox']/span");
+        clickElement("//i[@class='fa fa-power-off ']");
+        clickElement("//button[@id='Yes' and text()='Yes']");
+
+    }
+    public void returnToTTpage() throws InterruptedException {
+        String ticketType ="Request Fulfillment";
+        ProcessStage processStage=new ProcessStage(driver);
+        Thread.sleep(4000);
+        processStage.Filter_TicketType(ticketType);
+        processStage.Select_TTtoPickup();
+    }
+     public void applicableReq_yes() throws InterruptedException {
+         clickElement("//div[@id='applicableRequestCheckBox']//a[text()='Yes']");
+         submitTicket();
+          clickElement("//input[@id='processRequestCheckBox']");
+          submitTicket();
+         returnToTTpage();
+         Thread.sleep(5000);
+         sendkeys("//div[@class='note-editable']","Closed Ticket");
+         submitTicket();
+     }
+    public void applicableReq_no() throws InterruptedException {
+        Thread.sleep(5000);
+        submitTicket();
+        returnToTTpage();
+        Thread.sleep(5000);
+        sendkeys("//div[@class='note-editable']","Closed Ticket");
+        submitTicket();
+    }
+
 //TT creation Process
     public void Attachments(String filePath) {
         String filEPath = System.getProperty("user.dir") + "/" + filePath;
@@ -85,9 +132,9 @@ public class WebDriverManager {
         System.out.println("Value inputted: " + SubjectInput);
     }
     public void linketTicket(){
-        WebElement ele = driver.findElement(By.xpath("//div[@id='s2id_LinkedTicket']"));
+        WebElement ele = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='s2id_LinkedTicket']")));
         ele.click();
-        WebElement sk =  driver.findElement(By.xpath("//input[@id='s2id_autogen8_search']"));
+        WebElement sk =wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='s2id_autogen8_search']")));
         sk.sendKeys("EIG-TT");
         WebElement option = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//ul[@class='select2-results']//li[1]/div")));
         option.click();
