@@ -2,9 +2,7 @@ package tickets;
 
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.openqa.selenium.WebDriver;
-import pages.EventTTFlow;
-import pages.IncidentTTFlow;
-import pages.RequestFulfilmentTTFlow;
+import pages.*;
 
 public class TicketProcessStage {
     private final WebDriver driver;
@@ -85,6 +83,45 @@ public class TicketProcessStage {
         requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_no();
         //4
          requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_processReq();
+         //5
+        requestFulfilmentTTFlow.AprovalReq_yes_validReq_no_closed();
+    }
+
+    public void ChangeStage(String ticketType) throws InterruptedException {
+        TicketAction ticketAction=new TicketAction(driver);
+        ChangeTTFlow changeTTFlow=new ChangeTTFlow(driver);
+//        //1
+//        ticketAction.executeTicketProcess(ticketType);
+//        changeTTFlow.reject_RFC_no();
+//        //2
+//        ticketAction.executeTicketProcess(ticketType);
+//        changeTTFlow.reject_RFC_yes_rejectRFCmodify_repeat();
+//        //3
+//        ticketAction.executeTicketProcess(ticketType);
+//        changeTTFlow.submit_NA_acceptRFC_No_rejectRFC_no();
+//        //4
+//        changeTTFlow.submit_NA_acceptRFC_No_rejectRFC_yes();
+//        //5
+//        changeTTFlow.submit_NA_acceptRFC_yes_ApproveRFC_no();
+//        //6
+        changeTTFlow.submit_NA_acceptRFC_yes_ApproveRFC_yes();
+
+    }
+    public void ProblemStage(String ticketType) throws InterruptedException {
+        TicketAction ticketAction=new TicketAction(driver);
+        ProblemTTFlow problemTTFlow =new ProblemTTFlow(driver);
+        //1
+        ticketAction.executeTicketProcess(ticketType);
+        problemTTFlow.KEDB_creation_yesChange();
+        //2
+        ticketAction.executeTicketProcess(ticketType);
+        problemTTFlow.KEDB_creation_nochange();
+        //3
+        problemTTFlow.workAroundNO_yesChange();
+        //4
+        problemTTFlow.workAroundNO_nochange();
+
+
 
 
     }

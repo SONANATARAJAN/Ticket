@@ -10,8 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.WebDriverManager;
 import java.time.Duration;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static pages.Change.ticketNumber;
 
 public class ProcessStage {
     private WebDriverWait wait;
@@ -25,37 +24,26 @@ public class ProcessStage {
     public void Filter_TicketType(String ticketType) {
         WebDriverManager webDriverManager = new WebDriverManager(driver);
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[@id='tb_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_toolbar_item_w2ui-search-advanced']//span[@class='fa fa-filter']"))).click();
-        WebElement sample = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_operator_3']")));
+        WebElement sample = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_operator_2']")));
         Select drpDown = new Select(sample);
         drpDown.selectByValue("is");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_field_3']"))).sendKeys(ticketType);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_field_2']"))).sendKeys(ticketNumber);
         webDriverManager.clickMethod("//button[text()=\"Search\"]");
     }
 
     public void Select_TTtoPickup() throws InterruptedException {
         WebDriverManager webDriverManager = new WebDriverManager(driver);
 
-        // Wait for the pagination element and get its text
-        WebElement pagination = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='pagination_pageDetails']")));
-        String paginationText = pagination.getText();
-        System.out.println("Pagination text: " + paginationText);
-        Pattern pattern = Pattern.compile("1-10 of (\\d+)");
-        Matcher matcher = pattern.matcher(paginationText);
-        int totalCount = 0;
-        if (matcher.find()) {
-            totalCount = Integer.parseInt(matcher.group(1));
-            System.out.println("Total count is: " + totalCount);
-        }
-        // Locate and interact with the first row in the table
         Thread.sleep(5000);
-        WebElement element = driver.findElement(By.xpath("//tr[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_rec_1']"));
+        String dynamicXPath = String.format("//div[@title='%s']//span[text()='%s']", ticketNumber, ticketNumber);
+        WebElement element = driver.findElement(By.xpath(dynamicXPath));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         element.click();
 
         // Click on the "Pick Up" button
         webDriverManager.clickMethod("//button[text()='Pickup']");
         Thread.sleep(5000);
-        element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_rec_1']")));
+        element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(dynamicXPath)));
         Actions actions = new Actions(driver);
         actions.doubleClick(element).perform();
         //click Process

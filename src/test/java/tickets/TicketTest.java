@@ -67,12 +67,19 @@ public class TicketTest {
                          "Email", "London", "Terrestrial Segment",
                         "S1", "S1", "P1", "High", "Problem_Demo",   "src/test/resources/upload_files/empty.xls"
                 );
+                break;
+            case "Change":
+                Change change=new Change(driver);
+                change.changett();
+                break;
+
             case "Request Fulfillment":
                 RequestFulfillment requestFulfillmentTicket=new RequestFulfillment(driver);
                 requestFulfillmentTicket.createRequestfulfiment(
                         "Email", "London", "Testing",
-                        "MSP1+1 Testing", "London", "P1" , "RequestFulfilment_Demo",   "src/test/resources/upload_files/empty.xls"
+                        "MSP1+1 Testing", "London", "P1" , "Testing_RequestFulfilment_Demo_",   "src/test/resources/upload_files/empty.xls"
                 );
+                break;
 
             default:
                 System.out.println("Invalid ticket type: " + ticketType);

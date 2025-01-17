@@ -11,13 +11,18 @@ import utils.XPathProvider;
 import java.time.Duration;
 import java.util.List;
 
+import static pages.Change.ticketNumber;
+
 public class Problem {
     public WebDriver driver;
     private final utils.WebDriverManager webDriverManager;
+    public WebDriverWait wait;
 
     public Problem(WebDriver driver) {
         this.driver=driver;
         this.webDriverManager = new utils.WebDriverManager(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(70));
+
     }
 
 
@@ -39,6 +44,16 @@ public class Problem {
     public void urgency(String Urgency){
         webDriverManager.dropDownSelect(XPathProvider.Purgencyxpath,Urgency);
     }
+    public static String ProblemticketNumber; // Shared variable
+
+    public void PcaptureTicketId() {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
+        WebElement alert = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='content']//div[@class='message']")));
+        String ticketId = alert.getText();
+        ProblemticketNumber = ticketId.split(":")[1].trim(); // Assign to static variable
+        System.out.println("Full String: " + ticketId);
+        System.out.println("Split String into Ticket ID: " + ProblemticketNumber);
+    }
 
     public void priority(String Priority) {
         webDriverManager.dropDownSelect(XPathProvider.PperiorityXpath,Priority);
@@ -59,8 +74,10 @@ public class Problem {
         priority(priority);
         urgency(urgency);
         webDriverManager.subjectInput(Subject);
-        webDriverManager.linketTicket();
+        //webDriverManager.linketTicket();
         // Upload the files
         webDriverManager.Attachments(filePath);
         webDriverManager.Submit();
+        webDriverManager.captureTicketId();
+        PcaptureTicketId();
     }}

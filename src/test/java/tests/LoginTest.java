@@ -9,6 +9,8 @@ import tickets.TicketProcessStage;
 import utils.XPathProvider;
 import java.time.Duration;
 
+ import static utils.Constants.*;
+
 public class LoginTest   {
     private final BrowserManager browserManager = new BrowserManager();
 
@@ -20,22 +22,24 @@ public class LoginTest   {
              incognitoDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
              WebDriverWait wait = new WebDriverWait(incognitoDriver, Duration.ofSeconds(50));
 
-             incognitoDriver.get("https://192.168.4.96:10095/oss/login.action");
+             incognitoDriver.get(BASE_URL);
              incognitoDriver.manage().window().maximize();
              LoginPage loginPage = new LoginPage(incognitoDriver);
-             loginPage.enterUsername("nocuser1");
-             loginPage.enterPassword("nms@123$");
+             loginPage.enterUsername(nocUserName);
+             loginPage.enterPassword(nocPwd);
              Thread.sleep(5000);
              loginPage.clickLogin(XPathProvider.loginButtonXPath);
              loginPage.troubleTicket();
              incognitoDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
             //{"Event"}{"Incident"}{"Problem"}{"Request Fulfillment"}{"Change"}
-            String ticketType = "Request Fulfillment";
+            String ticketType = "Change";
 
               TicketProcessStage ticketProcessStage=new TicketProcessStage(incognitoDriver);
            // ticketProcessStage.EventProcessStage(ticketType);
-             ticketProcessStage.RequestFulfilmentStage(ticketType);
+           //  ticketProcessStage.RequestFulfilmentStage(ticketType);
            //  ticketProcessStage.IncidentProcessStage(ticketType);
+               ticketProcessStage.ChangeStage(ticketType);
+            // ticketProcessStage.ProblemStage(ticketType);
 
 
 

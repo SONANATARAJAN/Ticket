@@ -1,39 +1,39 @@
 package pages;
 import base.BrowserManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
+ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import tickets.ProcessStage;
 import tickets.TicketAction;
 import utils.WebDriverManager;
 import utils.XPathProvider;
 import java.time.Duration;
+
+import static utils.Constants.*;
+
 public class RequestFulfilmentTTFlow  {
-    private BrowserManager browserManager = new BrowserManager();
- //   public WebDriverManager webDriverManager=new WebDriverManager();
-    private WebDriverWait wait;
+
+    private final BrowserManager browserManager = new BrowserManager();
     public WebDriver driver;
-    private final utils.WebDriverManager webDriverManager;
 
     public RequestFulfilmentTTFlow(WebDriver driver) {
         this.driver=driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(70));
-        this.webDriverManager = new utils.WebDriverManager(driver);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(70));
 
     }
-    public void LoginNA() throws InterruptedException {
-        WebDriver normalDriver = browserManager.getNormalDriver();
-         normalDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-         normalDriver.get("https://192.168.4.96:10095/oss/login.action");
-        normalDriver.manage().window().maximize();
-        LoginPage loginPage = new LoginPage(normalDriver);
-        loginPage.enterUsername("nauser1");
-        loginPage.enterPassword("nms@123$");
+    public void performLogin(WebDriver driver, String username, String password) throws InterruptedException {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.get(BASE_URL);
+        driver.manage().window().maximize();
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.enterUsername(username);
+        loginPage.enterPassword(password);
         Thread.sleep(5000);
         loginPage.clickLogin(XPathProvider.loginButtonXPath);
         loginPage.troubleTicket();
+    }
+    public void LoginNA() throws InterruptedException {
+        WebDriver normalDriver = browserManager.getNormalDriver();
+        performLogin(normalDriver, naUserName, naPwd);
         //returnToTTpage();
         ProcessStage processStage=new ProcessStage(normalDriver);
         Thread.sleep(4000);
@@ -42,22 +42,13 @@ public class RequestFulfilmentTTFlow  {
         processStage.Select_TTtoPickup();
          WebDriverManager webDriverManager=new WebDriverManager(normalDriver);
          webDriverManager.validateRequestCheckBox_yes();
-        Thread.sleep(4000);
-        webDriverManager.Logout();
+         webDriverManager.Logout();
 
     }
 
     public void loginNOC() throws InterruptedException {
         WebDriver incognitoDriver = browserManager.getIncognitoDriver();
-        incognitoDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-        incognitoDriver.get("https://192.168.4.96:10095/oss/login.action");
-        incognitoDriver.manage().window().maximize();
-        LoginPage loginPage = new LoginPage(incognitoDriver);
-        loginPage.enterUsername("nocuser1");
-        loginPage.enterPassword("nms@123$");
-        Thread.sleep(5000);
-        loginPage.clickLogin(XPathProvider.loginButtonXPath);
-        loginPage.troubleTicket();
+        performLogin(incognitoDriver, nocUserName, nocPwd);
         //returnToTTpage();
         WebDriverManager webDriverManager=new WebDriverManager(incognitoDriver);
        webDriverManager.returnToTTpage();
@@ -70,30 +61,54 @@ public class RequestFulfilmentTTFlow  {
         ticketAction.executeTicketProcess(ticketType);
         webDriverManager.approvalRequest_Yes();
         //move to NA user
-        Thread.sleep(4000);
-        webDriverManager.Logout();
-        Thread.sleep(4000);
+         webDriverManager.Logout();
 
     }
     public void loginNOC2() throws InterruptedException {
         WebDriver incognitoDriver = browserManager.getIncognitoDriver();
-        incognitoDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-        incognitoDriver.get("https://192.168.4.96:10095/oss/login.action");
-        incognitoDriver.manage().window().maximize();
-        LoginPage loginPage = new LoginPage(incognitoDriver);
-        loginPage.enterUsername("nocuser1");
-        loginPage.enterPassword("nms@123$");
-        Thread.sleep(5000);
-        loginPage.clickLogin(XPathProvider.loginButtonXPath);
-        loginPage.troubleTicket();
+        performLogin(incognitoDriver, nocUserName, nocPwd);
         //returnToTTpage
         WebDriverManager webDriverManager = new WebDriverManager(incognitoDriver);
         webDriverManager.returnToTTpage();
         Thread.sleep(5000);
         //
         webDriverManager.applicableReq_yes();
+        //
+        System.out.println("case 5-----------");
+        TicketAction ticketAction=new TicketAction(incognitoDriver);
+        String ticketType ="Request Fulfillment";
+        ticketAction.executeTicketProcess(ticketType);
+        webDriverManager.approvalRequest_Yes();
+        //move to NA user
+         webDriverManager.Logout();
+     }
+    public void LoginNA1() throws InterruptedException {
+        WebDriver normalDriver = browserManager.getNormalDriver();
+        performLogin(normalDriver, naUserName, naPwd);
+        //returnToTTpage();
+        ProcessStage processStage=new ProcessStage(normalDriver);
+        Thread.sleep(4000);
+        String ticketType ="Request Fulfillment";
+        processStage.Filter_TicketType(ticketType);
+        processStage.Select_TTtoPickup();
+        WebDriverManager webDriverManager=new WebDriverManager(normalDriver);
+        Thread.sleep(4000);
+        webDriverManager.submitTicket();
+         webDriverManager.Logout();
+    }
+    public void loginNOC3() throws InterruptedException {
+        WebDriver incognitoDriver = browserManager.getIncognitoDriver();
+        performLogin(incognitoDriver, nocUserName, nocPwd);
+        //returnToTTpage
+        WebDriverManager webDriverManager = new WebDriverManager(incognitoDriver);
+        webDriverManager.returnToTTpage();
+         Thread.sleep(5000);
+        webDriverManager.sendkeys("//div[@class='note-editable']","Closed Ticket");
+        webDriverManager.submitTicket();
+        //
 
     }
+
     //1
     public void AprovalReq_no_applicable_yes() throws InterruptedException {
         System.out.println("1 case");
@@ -133,6 +148,12 @@ public class RequestFulfilmentTTFlow  {
         Thread.sleep(5000);
         loginNOC2();  //-3rd continue
     }
+    //5
+    public void AprovalReq_yes_validReq_no_closed() throws InterruptedException {
+        LoginNA1();
+        loginNOC3();
+    }
+
 
 }
 
