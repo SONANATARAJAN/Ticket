@@ -11,6 +11,7 @@ import java.time.Duration;
 import java.util.List;
 
 
+import static pages.Change.test;
 import static utils.XPathProvider.dropdownXPath;
 
 public class TicketTest {
@@ -33,6 +34,7 @@ public class TicketTest {
             if (option.getText().equalsIgnoreCase(ticketType)) {
                 option.click();
                 optionFound = true;
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
                 break;
             }}
         if (!optionFound) {
@@ -44,15 +46,17 @@ public class TicketTest {
         switch (ticketType) {
             case "Event":
                 Events eventsTicket = new Events(driver);
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
                 eventsTicket.createEvent(
                       "Email", "London",
                         "Business Continuity Plan", "Disaster Recovery", "S1", "P1",
                         "High", "Service Affecting", "Warning", "Demo_Event_TT_sona",
-                        "src/test/resources/upload_files/empty.xls"
+                        "src/test/resources/upload_files/ImpactedCircuits.xlsx"
                 );
                 break;
 
             case "Incident":
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
                 Incident incidentTicket = new Incident(driver);
                 incidentTicket.createIncident(
                           "Email", "London",
@@ -62,6 +66,7 @@ public class TicketTest {
                 );
                 break;
             case "Problem":
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
                 Problem problemTicket= new Problem(driver);
                 problemTicket.createProblem(
                          "Email", "London", "Terrestrial Segment",
@@ -69,11 +74,13 @@ public class TicketTest {
                 );
                 break;
             case "Change":
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
                 Change change=new Change(driver);
                 change.changett();
                 break;
 
             case "Request Fulfillment":
+                wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
                 RequestFulfillment requestFulfillmentTicket=new RequestFulfillment(driver);
                 requestFulfillmentTicket.createRequestfulfiment(
                         "Email", "London", "Testing",

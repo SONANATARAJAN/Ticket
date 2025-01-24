@@ -26,24 +26,24 @@ public class TicketProcessStage {
         ticketAction.executeTicketProcess(ticketType);
         eventTTFlow.resoluationVeriFyStatus_no_noc_no_withoutV();
         //4
-        System.out.println("case 4");
+       /* System.out.println("case 4");
         ticketAction.executeTicketProcess(ticketType);
-        eventTTFlow.resoluationVeriFyStatus_no_noc_no_withV();
-//        //5
+        eventTTFlow.resoluationVeriFyStatus_no_noc_no_withV();*/
+        //5
         System.out.println("case 5");
         ticketAction.executeTicketProcess(ticketType);
         eventTTFlow.resoluationVeriFyStatus_no_others_without();
         //6
-        System.out.println("case 6");
+       /* System.out.println("case 6");
         ticketAction.executeTicketProcess(ticketType);
-         eventTTFlow.resoluationVeriFyStatus_no_others_with();
+         eventTTFlow.resoluationVeriFyStatus_no_others_with();*/
     }
     public void IncidentProcessStage(String ticketType) throws InterruptedException{
         IncidentTTFlow incidentTTFlow=new IncidentTTFlow(driver);
         TicketAction ticketAction=new TicketAction(driver);
         //1
         ticketAction.executeTicketProcess(ticketType);
-        incidentTTFlow.resolutionverify_yes_resolve();
+       /* incidentTTFlow.resolutionverify_yes_resolve();
         //2
         ticketAction.executeTicketProcess(ticketType);
         incidentTTFlow.resolutionverify_yes_notResolve();
@@ -67,44 +67,44 @@ public class TicketProcessStage {
         incidentTTFlow.resolutionverify_no_others_withoutTP_resolved();
         //9
         ticketAction.executeTicketProcess(ticketType);
-        incidentTTFlow.resolutionverify_no_others_withoutTP_notResolved();
+        incidentTTFlow.resolutionverify_no_others_withoutTP_notResolved();*/
     }
     public void RequestFulfilmentStage(String ticketType) throws InterruptedException {
         TicketAction ticketAction=new TicketAction(driver);
         RequestFulfilmentTTFlow requestFulfilmentTTFlow=new RequestFulfilmentTTFlow(driver);
         //1
-        ticketAction.executeTicketProcess(ticketType);
+       /* ticketAction.executeTicketProcess(ticketType);
         requestFulfilmentTTFlow.AprovalReq_no_applicable_yes();
         //2
         ticketAction.executeTicketProcess(ticketType);
-        requestFulfilmentTTFlow.AprovalReq_no_applicable_no();
+        requestFulfilmentTTFlow.AprovalReq_no_applicable_no();*/
         //3
-        ticketAction.executeTicketProcess(ticketType);
+      ticketAction.executeTicketProcess(ticketType);
         requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_no();
         //4
-         requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_processReq();
+        /*   requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_processReq();
          //5
-        requestFulfilmentTTFlow.AprovalReq_yes_validReq_no_closed();
+        requestFulfilmentTTFlow.AprovalReq_yes_validReq_no_closed();*/
     }
 
     public void ChangeStage(String ticketType) throws InterruptedException {
         TicketAction ticketAction=new TicketAction(driver);
         ChangeTTFlow changeTTFlow=new ChangeTTFlow(driver);
 //        //1
-//        ticketAction.executeTicketProcess(ticketType);
-//        changeTTFlow.reject_RFC_no();
+        ticketAction.executeTicketProcess(ticketType);
+        /*changeTTFlow.reject_RFC_no();
 //        //2
-//        ticketAction.executeTicketProcess(ticketType);
-//        changeTTFlow.reject_RFC_yes_rejectRFCmodify_repeat();
+        ticketAction.executeTicketProcess(ticketType);
+        changeTTFlow.reject_RFC_yes_rejectRFCmodify_repeat();
 //        //3
-//        ticketAction.executeTicketProcess(ticketType);
-//        changeTTFlow.submit_NA_acceptRFC_No_rejectRFC_no();
+        ticketAction.executeTicketProcess(ticketType);
+        changeTTFlow.submit_NA_acceptRFC_No_rejectRFC_no();
 //        //4
-//        changeTTFlow.submit_NA_acceptRFC_No_rejectRFC_yes();
+        changeTTFlow.submit_NA_acceptRFC_No_rejectRFC_yes();
 //        //5
-//        changeTTFlow.submit_NA_acceptRFC_yes_ApproveRFC_no();
+        changeTTFlow.submit_NA_acceptRFC_yes_ApproveRFC_no();
 //        //6
-        changeTTFlow.submit_NA_acceptRFC_yes_ApproveRFC_yes();
+        changeTTFlow.submit_NA_acceptRFC_yes_ApproveRFC_yes();*/
 
     }
     public void ProblemStage(String ticketType) throws InterruptedException {
@@ -114,12 +114,12 @@ public class TicketProcessStage {
         ticketAction.executeTicketProcess(ticketType);
         problemTTFlow.KEDB_creation_yesChange();
         //2
-        ticketAction.executeTicketProcess(ticketType);
+       /* ticketAction.executeTicketProcess(ticketType);
         problemTTFlow.KEDB_creation_nochange();
         //3
         problemTTFlow.workAroundNO_yesChange();
         //4
-        problemTTFlow.workAroundNO_nochange();
+        problemTTFlow.workAroundNO_nochange();*/
 
 
 

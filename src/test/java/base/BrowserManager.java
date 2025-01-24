@@ -13,7 +13,7 @@ public class BrowserManager {
         if (normalDriver == null) {
             ChromeOptions options = new ChromeOptions();
             options.setAcceptInsecureCerts(true);
-            normalDriver = new ChromeDriver();
+            normalDriver = new ChromeDriver(options);
         }
         return normalDriver;
     }

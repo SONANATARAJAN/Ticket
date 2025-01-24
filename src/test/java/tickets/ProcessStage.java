@@ -48,7 +48,7 @@ public class ProcessStage {
         actions.doubleClick(element).perform();
         //click Process
         Thread.sleep(6000);
-        webDriverManager.clickMethod("//span[text()='Process']");
+         webDriverManager.clickMethod("//span[text()='Process']");
 
     }
 }
