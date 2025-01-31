@@ -8,14 +8,18 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.ChangeTTFlow;
-import pages.RequestFulfilmentTTFlow;
 import tickets.ProcessStage;
 import tickets.TicketTest;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import static pages.Change.ticketNumber;
+import static pages.IncidentTTFlow.addstepI;
 import static pages.Problem.ProblemticketNumber;
+import static pages.RequestFulfilmentTTFlow.addstep;
+import static pages.ChangeTTFlow.addstepC;
+import static pages.ProblemTTFlow.addstepP;
+
 
 public class WebDriverManager {
     private BrowserManager browserManager = new BrowserManager();
@@ -26,26 +30,25 @@ public class WebDriverManager {
 
     public WebDriverManager(WebDriver driver){
         this.driver=driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(70));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(120));
         executionSteps = new ArrayList<>();
     }
     //report generated
-    public static void setTest(ExtentTest extentTest) {
-        test = extentTest;
-    }
+
     private void addStep(String stepDetail) {
         executionSteps.add(stepDetail);
     }
-    public void generateSummary() {
+    public  void generateSummary() {
         StringBuilder summary = new StringBuilder();
         summary.append("<b> Ticket Creation :</b><br><br>");
         int stepNumber = 1;
         for (String step : executionSteps) {
             summary.append(String.format("<b>%02d:</b> %s<br>", stepNumber++, step));
         }
-        test.pass(summary.toString());
+        ReportManager.pass(summary.toString());
     }
     //TT creation Process
+
     public void Attachments(String filePath) {
         String filEPath = System.getProperty("user.dir") + "/" + filePath;
         System.out.println(filEPath);
@@ -103,9 +106,10 @@ public class WebDriverManager {
         ticketNumber = ticketId.split(":")[1].trim(); // Assign to static variable
         System.out.println("Full String: " + ticketId);
         System.out.println("Split String into Ticket ID: " + ticketNumber);
-        test.pass(ticketNumber +"  Ticket Create Sucessfully");
+        ReportManager.pass(ticketNumber +"  Ticket Create Sucessfully");
     }
 //Process flow
+
     public void clickMethod(String locator){
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(locator))).click();
      }
@@ -115,28 +119,29 @@ public class WebDriverManager {
     public void sendkeys(String locator,String input){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator))).sendKeys(input);
     }
+
     //Ticket flow
+    public void resolveYes(){
+        clickElement("//div[@id='resolutionStatus']//a[text()='Yes']");
+              }
     public void clickElement(String locator){
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath(locator))).click();
     }
     public void submitTicket(){
         clickElement("//button[@id='Submit' and text()='Submit']");
     }
-    public void resolveYes(){
-        clickElement("//div[@id='resolutionStatus']//a[text()='Yes']");
-    }
-    public void resolved(){
-    }
+
 
 
     //Request Fulfilment
     public void approvalRequest_Yes(){
         clickElement("//div[@id='approvalRequestCheckBox']//a[text()='Yes']");
+        addstep(driver,"Approval Request - Yes",true);
         submitTicket();
     }
     public void validateRequestCheckBox_yes(){
-        RequestFulfilmentTTFlow.addstep("Validate Request - Yes");
         clickElement("//div[@id='validateRequestCheckBox']//a[text()='Yes']");
+        addstep(driver,"Validate Request - Yes",true);
         submitTicket();
 
     }
@@ -155,50 +160,51 @@ public class WebDriverManager {
         processStage.Select_TTtoPickup();
     }
      public void applicableReq_yes() throws InterruptedException {
-         RequestFulfilmentTTFlow.addstep("Applicable Request - Yes");
          clickElement("//div[@id='applicableRequestCheckBox']//a[text()='Yes']");
+         addstep(driver,"Applicable Request - Yes",true);
          submitTicket();
-         RequestFulfilmentTTFlow.addstep("Process Request");
          clickElement("//input[@id='processRequestCheckBox']");
+         addstep(driver,"Process Request",true);
          submitTicket();
          returnToTTpage();
          Thread.sleep(5000);
-         RequestFulfilmentTTFlow.addstep("Close Ticket");
          sendkeys("//div[@class='note-editable']","Closed Ticket");
+         addstep(driver,"Close Ticket",true);
          submitTicket();
      }
     public void applicableReq_no() throws InterruptedException {
         Thread.sleep(5000);
-        RequestFulfilmentTTFlow.addstep("Applicable Request - No");
+        addstep(driver,"Applicable Request - No",true);
         submitTicket();
         returnToTTpage();
         Thread.sleep(5000);
-        RequestFulfilmentTTFlow.addstep("Close Ticket");
         sendkeys("//div[@class='note-editable']","Closed Ticket");
+        addstep(driver,"Close Ticket",true);
         submitTicket();
     }
 
     //change TT
     public void closeTT(){
         sendkeys("//div[@class='note-editable']","Closed Ticket");
+        addstepC(driver,"Closed Ticket",true);
+        addstepP(driver,"Ticket Closed",true);
         submitTicket();
     }
     public void appealonRejectedRFCtogglebox_yes(){
         clickElement("//div[@id='appealonRejectedRFCtogglebox']//a[text()='Yes']");
+        addstepC(driver,"Appeal on Rejected RFC - Yes",true);
         submitTicket();
         clickElement("//input[@id='modifyRFCCheckBox']");
+        addstepC(driver,"Modify RFC Detail",true);
         submitTicket();
     }
     public void acceptEvaluatedRFCtogglebox_yes(){
         clickElement("//div[@id='acceptEvaluatedRFCtogglebox']//a[text()='Yes']");
         sendkeys("//textarea[@id='AssessComments']","Access Comment");
+        addstepC(driver,"Accept Evaluated RFC - Yes",true);
         submitTicket();
     }
-    public void approveRFCtogglebox_yes(){
-        clickElement("//div[@id='acceptEvaluatedRFCtogglebox']//a[text()='Yes']");
-        sendkeys("//textarea[@id='AssessComments']","Access Comment");
-        submitTicket();
-    }
+
     public void returnToTTpage_C() throws InterruptedException {
         String ticketType ="Change";
         ProcessStage processStage=new ProcessStage(driver);
@@ -206,60 +212,114 @@ public class WebDriverManager {
         processStage.Filter_TicketType(ticketType);
         processStage.Select_TTtoPickup();
     }
-    public void returnToTTpage_P() throws InterruptedException {
-        String ticketType ="Problem";
-        ProcessStage processStage=new ProcessStage(driver);
-        Thread.sleep(4000);
-        processStage.Filter_TicketType(ticketType);
-        processStage.Select_TTtoPickup();
-    }
+
  public void Submitted(){
         clickElement("//div[@id='acceptRFCReviewtogglebox']//a[@name='Submitted']");
         sendkeys("//textarea[@id='ReviewComments']","Accept RFC Review");
+         addstepC(driver,"Accept RFC Review - Submitted",true);
         submitTicket();
 }
+//Third party Ticket
+public void TPreturnToTTpage() throws InterruptedException {
+    Thread.sleep(5000);
+    String ticketType ="Incident";
+    ProcessStage processStage=new ProcessStage(driver);
+    processStage.Filter_ParentTicketType(ticketType);
+    processStage.Third_selectToPickup();
+}
+//Incident Ticket
+
+    public void problemResolved(){
+        clickElement(XPathProvider.problemResolve1);
+        clickElement(XPathProvider.problemResolve2);
+        addstepI(driver,"Problem Resolved",true);
+        //submit
+        submitTicket();
+    }
+    public void ResolutionVerification_resolveYes(){
+        clickElement("//div[@id='resolutionStatus']//a[text()='Yes']");
+        addstepI(driver,"Resolution Verification Status -Yes",true);
+        submitTicket();
+    }
+    public void ResolutionVerificationClosure(){
+
+    }
+    public void causeIdentifiedCheckBox(){
+         clickElement ("//input[@id='causeIdentifiedCheckBox']");
+         addstepI(driver,"Cause Identification",true);
+         submitTicket();
+    }
+    public void resolved() throws InterruptedException{
+        Thread.sleep(3000);
+        clickElement("//div[@id='resolutionVerificationClosuretogglebox']//a[text()='Resolved']");
+        addstepI(driver,"Resolution Verification Closure - resolved ",true);
+        submitTicket();
+    }
+    public void ResolutionVerificationbyCustomer_Resolved(){
+       clickElement("//div[@id='resolutionVerificationbyCustomerCheckBox']//a[text()='Resolved']");
+       sendkeys("//div[@class='note-editable']","Resolution Verification by Customer -Ticket goes to close");
+       addstepI(driver,"Resolution Verification by Customer - Resolved",true);
+       submitTicket();
+    }
+    public void noc(){
+         clickElement("//div[@id='incidentBoundarycheck']//a[text()='NOC']");
+        addstepI(driver,"Incident Boundary Check - NOC",true);
+         submitTicket();
+    }
 //problem TT flow
     public void investigationAndDiagnosisCheckBox(){
          clickElement("//input[@id='investigationAndDiagnosisCheckBox']");
+         addstepP(driver,"Investigation & Diagnosis",true);
          submitTicket();
     }
     public void workAroundinKEDBDtogglebox(){
          clickElement("//div[@id='workAroundinKEDBDtogglebox']//a[text()='Yes']");
-         submitTicket();
+        addstepP(driver,"Work Around in KEDB - Yes",true);
+        submitTicket();
     }
     public void KEDBcreation(){
          clickElement("//input[@id='definesWorkAroundCheckBox']");
-         submitTicket();
+        addstepP(driver,"Define WorkAround",true);
+        submitTicket();
          clickElement("//form[@id='keDBUpdationDetailProcessForm']//button[@id='Submit' and text()='Create KEDB' ]");
          sendkeys("//textarea[@id='problem']","Problem");
          sendkeys("//textarea[@id='reason']","reason");
          sendkeys("//textarea[@id='correctiveAction']","corrective action");
          sendkeys("//textarea[@id='keywords']","keywords");
-         submitTicket();
+        addstepP(driver,"KEDB Updation - Create KEDB",true);
+        submitTicket();
 
          clickElement("//input[@id='keDBUpdationCheckBox']");
          submitTicket();
     }
     public void ChangeTT_in_ProblemTT() throws InterruptedException {
         //problem changes --yes
-         clickElement("//div[@id='problemChangestogglebox']//a[text()='Yes']");
-         submitTicket();
+        clickElement("//div[@id='problemChangestogglebox']//a[text()='Yes']");
+        addstepP(driver,"Problem Changes - Yes",true);
+        submitTicket();
         //request for change
          clickElement("//input[@id='requestForChangeCheckBox']");
-         submitTicket();
-
+        addstepP(driver,"Request For Change",true);
+        submitTicket();
         TicketTest ticketTest = new TicketTest(driver);
+        ReportManager.info("Change Ticket Creation for Problem Ticket");
         String ticketType ="Change";
+        addstepP(driver,"Change Ticket Creation Stage :",false);
         ticketTest.testTicketTypeSelection(ticketType);
 
          clickElement("//input[@id='problemResolutionCheckBox']");
          submitTicket();
-        //return to TT page
+         //return to TT page
          clickElement("//a[@id='id_OpenTickets']");
          returnToTTpage_C();
-
+        addstepP(driver,"<b>Start Change Ticket Flow </b>",false);
         ChangeTTFlow changeTTFlow=new ChangeTTFlow(driver);
         changeTTFlow.reject_RFC_no();
+    }
+    public void returnToTTpage_P() throws InterruptedException {
+        Thread.sleep(4000);
+        Filter_TicketType();
+        Select_TTtoPickup();
     }
 
     public void Filter_TicketType() {
@@ -271,7 +331,6 @@ public class WebDriverManager {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_field_2']"))).sendKeys(ProblemticketNumber);
         webDriverManager.clickMethod("//button[text()=\"Search\"]");
     }
-//
 
     public void Select_TTtoPickup() throws InterruptedException {
         WebDriverManager webDriverManager = new WebDriverManager(driver);
@@ -286,10 +345,13 @@ public class WebDriverManager {
         Thread.sleep(5000);
         element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(dynamicXPath)));
         Actions actions = new Actions(driver);
+        ((JavascriptExecutor) driver).executeScript("document.getElementById('super-ac-wrapper').style.display='none';");
         actions.doubleClick(element).perform();
         //click Process
         Thread.sleep(6000);
-        webDriverManager.clickMethod("//span[text()='Process']");
+        WebElement processButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Process']")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", processButton);
+
     }
     public  void selectByVisibleText(String locatorvalue, String value) throws InterruptedException {
         WebElement dropdown = driver.findElement(By.xpath(locatorvalue));

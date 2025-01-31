@@ -30,25 +30,58 @@ public class ProcessStage {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_field_2']"))).sendKeys(ticketNumber);
         webDriverManager.clickMethod("//button[text()=\"Search\"]");
     }
+    public void Third_selectToPickup() throws InterruptedException {
+        WebDriverManager webDriverManager = new WebDriverManager(driver);
+        Thread.sleep(5000);
+        //String dynamicXPath = String.format("//div[@title='%s']//span[text()='%s']", ticketNumber, ticketNumber);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_rec_1']")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        element.click();
+        //tr[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_rec_1']
+
+        // Click on the "Pick Up" button
+        webDriverManager.clickMethod("//button[text()='Pickup']");
+        Thread.sleep(6000);
+        element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_rec_1']")));
+        Actions actions = new Actions(driver);
+        ((JavascriptExecutor) driver).executeScript("document.getElementById('super-ac-wrapper').style.display='none';");
+        actions.doubleClick(element).perform();
+        //click Process
+        Thread.sleep(6000);
+        WebElement processButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Process']")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", processButton);
+
+    }
+    public void Filter_ParentTicketType(String ticketType) {
+        WebDriverManager webDriverManager = new WebDriverManager(driver);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//td[@id='tb_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_toolbar_item_w2ui-search-advanced']//span[@class='fa fa-filter']"))).click();
+        WebElement sample = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_operator_17']")));
+        Select drpDown = new Select(sample);
+        drpDown.selectByValue("is");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_field_17']"))).sendKeys(ticketNumber);
+        webDriverManager.clickMethod("//button[text()=\"Search\"]");
+    }
 
     public void Select_TTtoPickup() throws InterruptedException {
         WebDriverManager webDriverManager = new WebDriverManager(driver);
 
         Thread.sleep(5000);
         String dynamicXPath = String.format("//div[@title='%s']//span[text()='%s']", ticketNumber, ticketNumber);
-        WebElement element = driver.findElement(By.xpath(dynamicXPath));
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(dynamicXPath)));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         element.click();
 
         // Click on the "Pick Up" button
         webDriverManager.clickMethod("//button[text()='Pickup']");
-        Thread.sleep(5000);
+        Thread.sleep(6000);
         element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(dynamicXPath)));
         Actions actions = new Actions(driver);
+        ((JavascriptExecutor) driver).executeScript("document.getElementById('super-ac-wrapper').style.display='none';");
         actions.doubleClick(element).perform();
         //click Process
         Thread.sleep(6000);
-         webDriverManager.clickMethod("//span[text()='Process']");
+        WebElement processButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Process']")));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", processButton);
 
     }
 }

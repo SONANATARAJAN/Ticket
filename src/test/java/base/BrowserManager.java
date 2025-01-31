@@ -13,6 +13,8 @@ public class BrowserManager {
         if (normalDriver == null) {
             ChromeOptions options = new ChromeOptions();
             options.setAcceptInsecureCerts(true);
+            //Background run
+         //   options.addArguments("--headless=new", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--disable-extensions", "--disable-blink-features=AutomationControlled");
             normalDriver = new ChromeDriver(options);
         }
         return normalDriver;
@@ -23,6 +25,7 @@ public class BrowserManager {
         if (incognitoDriver == null) {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--incognito");
+         //   options.addArguments("--headless=new", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--disable-extensions", "--disable-blink-features=AutomationControlled");
             options.setAcceptInsecureCerts(true);
             incognitoDriver = new ChromeDriver(options);
         }
