@@ -57,12 +57,13 @@ public class TicketProcessStage {
         ticketAction.executeTicketProcess(ticketType);
         incidentTTFlow.resolutionverify_no_noc_no_withoutV_notResolved();
         //7
-         incidentTTFlow.resolutionverify_no_noc_no_withV();
+         incidentTTFlow.resolutionverify_yes_resolve_closure_notResolved();
         //8
         ticketAction.executeTicketProcess(ticketType);
         incidentTTFlow.resolutionverify_no_others_withoutTP_resolved();
         //9
-         incidentTTFlow.resolutionverify_no_others_withoutTP_notResolved();
+        ticketAction.executeTicketProcess(ticketType);
+        incidentTTFlow.resolutionverify_no_others_withoutTP_notResolved();
         //10
          incidentTTFlow.resolutionverify_no_others_withTP_notResolved();
     }
@@ -73,7 +74,7 @@ public class TicketProcessStage {
         ticketAction.executeTicketProcess(ticketType);
         requestFulfilmentTTFlow.AprovalReq_no_applicable_yes();
         //2
-       /*ticketAction.executeTicketProcess(ticketType);
+       ticketAction.executeTicketProcess(ticketType);
         requestFulfilmentTTFlow.AprovalReq_no_applicable_no();
         //3
          ticketAction.executeTicketProcess(ticketType);
@@ -81,7 +82,7 @@ public class TicketProcessStage {
         //4
         requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_processReq();
          //5
-        requestFulfilmentTTFlow.AprovalReq_yes_validReq_no_closed();*/
+        requestFulfilmentTTFlow.AprovalReq_yes_validReq_no_closed();
     }
 
     public void ChangeStage(String ticketType) throws InterruptedException {
@@ -93,14 +94,14 @@ public class TicketProcessStage {
       //2
         ticketAction.executeTicketProcess(ticketType);
         changeTTFlow.reject_RFC_yes_rejectRFCmodify_repeat();
-//        //3
+        //3
         ticketAction.executeTicketProcess(ticketType);
         changeTTFlow.submit_NA_acceptRFC_No_rejectRFC_no();
-//        //4
+        //4
         changeTTFlow.submit_NA_acceptRFC_No_rejectRFC_yes();
-//        //5
+        //5
         changeTTFlow.submit_NA_acceptRFC_yes_ApproveRFC_no();
-//        //6
+        //6
       //  changeTTFlow.submit_NA_acceptRFC_yes_ApproveRFC_yes();
 
     }

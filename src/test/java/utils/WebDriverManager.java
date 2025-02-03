@@ -47,6 +47,14 @@ public class WebDriverManager {
         }
         ReportManager.pass(summary.toString());
     }
+    public static void sleep(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt(); // Restore interrupted state
+            System.out.println("Sleep interrupted: " + e.getMessage());
+        }
+    }
     //TT creation Process
 
     public void Attachments(String filePath) {

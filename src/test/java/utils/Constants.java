@@ -9,7 +9,7 @@ public class Constants {
     public static final String naUserName = "nauser2";
     public static final String naPwd="nms@123$";
     //cable station
-    public static final String cableuser = "cableuser";
+    public static final String cableuser = "cableuser2";
     public static final String cablePwd="nms@123$";
 
 

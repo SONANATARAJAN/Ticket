@@ -53,7 +53,7 @@ public class LoginTest   {
                      ticketTest.testTicketTypeSelection(ticketType);}}*/
 
              //{"Event"}{"Incident"}{"Problem"}{"Request Fulfillment"}{"Change"}
-             String ticketType = "Incident";
+             String ticketType = "Request Fulfillment";
              TicketProcessStage ticketProcessStage=new TicketProcessStage(incognitoDriver);
 
              switch(ticketType) {
@@ -80,6 +80,7 @@ public class LoginTest   {
              throw new RuntimeException("Test case failed due to an exception.", e);
 
         }finally {
+             browserManager.closeAllBrowsers();
              extent.flush();
          }
 
