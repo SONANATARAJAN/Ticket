@@ -45,19 +45,21 @@ public class ReportManager {
         test = activeTest;
     }
 
-    public static void log(String message) {
-        if (test != null) {
-            test.info(message);
-        }
-    }
     public static void logError(String message) {
         if (test != null) {
             test.fail(message);
+        }
+        else {
+            System.out.println("ExtentTest is not initialized. Unable to log info message: " + message);
+
         }
     }
     public static void pass(String message) {
         if (test != null) {
             test.pass(message);
+        }
+        else{
+            System.out.println("ExtentTest is not initialized. Unable to log info message: " + message);
         }
     }
 

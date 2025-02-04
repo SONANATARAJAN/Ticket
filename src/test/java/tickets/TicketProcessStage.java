@@ -112,13 +112,13 @@ public class TicketProcessStage {
          ticketAction.executeTicketProcess(ticketType);
           problemTTFlow.KEDB_creation_yesChange();
         //2
-         problemTTFlow.KEDB_creation_nochange();
+      /*   problemTTFlow.KEDB_creation_nochange();
         //3
         problemTTFlow.workAroundNO_yesChange();
         //4
         problemTTFlow.workAroundNO_nochange();
         //5
-        problemTTFlow.workAroundNo_noChange_ResolutionApproveNo();
+        problemTTFlow.workAroundNo_noChange_ResolutionApproveNo();*/
 
 
 

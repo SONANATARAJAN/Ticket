@@ -53,7 +53,7 @@ public class LoginTest   {
                      ticketTest.testTicketTypeSelection(ticketType);}}*/
 
              //{"Event"}{"Incident"}{"Problem"}{"Request Fulfillment"}{"Change"}
-             String ticketType = "Request Fulfillment";
+             String ticketType = "Problem";
              TicketProcessStage ticketProcessStage=new TicketProcessStage(incognitoDriver);
 
              switch(ticketType) {
