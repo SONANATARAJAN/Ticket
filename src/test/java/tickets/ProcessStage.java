@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.WebDriverManager;
 import java.time.Duration;
 import static pages.Change.ticketNumber;
+ import static utils.WebDriverManager.thirtparty;
 
 public class ProcessStage {
     private WebDriverWait wait;
@@ -33,16 +34,16 @@ public class ProcessStage {
     public void Third_selectToPickup() throws InterruptedException {
         WebDriverManager webDriverManager = new WebDriverManager(driver);
         Thread.sleep(5000);
-        //String dynamicXPath = String.format("//div[@title='%s']//span[text()='%s']", ticketNumber, ticketNumber);
-        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tr[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_rec_1']")));
+        String dynamicXPath = String.format("//div[@title='%s' and text()='%s']", thirtparty, thirtparty);
+        System.out.println("the path :"+dynamicXPath);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(dynamicXPath)));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         element.click();
-        //tr[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_rec_1']
 
         // Click on the "Pick Up" button
         webDriverManager.clickMethod("//button[text()='Pickup']");
         Thread.sleep(6000);
-        element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tr[@id='grid_TroubleTicketTableViewdataReload_cygnetTable_zbnsmajhek_rec_1']")));
+        element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath( dynamicXPath)));
         Actions actions = new Actions(driver);
         ((JavascriptExecutor) driver).executeScript("document.getElementById('super-ac-wrapper').style.display='none';");
         actions.doubleClick(element).perform();

@@ -70,6 +70,17 @@ public class ReportManager {
             System.out.println("ExtentTest is not initialized. Unable to log info message: " + s);
         }
     }
+    public static void logException(Exception e) {
+        if (test != null) {
+            test.fail("An exception occurred: " + e.getMessage());
+            for (StackTraceElement element : e.getStackTrace()) {
+                test.fail(element.toString());
+            }
+        } else {
+            System.err.println("ExtentTest is not initialized. Unable to log exception: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
 
     /**
@@ -77,6 +88,7 @@ public class ReportManager {
      *
      * @return
      */
+
     public static String captureScreenshot(WebDriver driver, String stepDetails) {
         if (test != null) {
             try {

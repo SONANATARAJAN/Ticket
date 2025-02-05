@@ -15,14 +15,13 @@ import org.testng.annotations.Test;
  import java.time.Duration;
  import java.util.Arrays;
  import java.util.List;
-
  import static utils.Constants.*;
 
 public class LoginTest   {
     private final BrowserManager browserManager = new BrowserManager();
-
+    public WebDriver driver;
     @Test
-    public void testValidLogin()  {
+    public void testValidLogin() throws InterruptedException {
         ExtentReports extent = ReportManager.getExtentReports();
         ExtentTest test = extent.createTest("Test Case for Ticket Creation and Process Flow");
         ReportManager.setTest(test);
@@ -53,7 +52,7 @@ public class LoginTest   {
                      ticketTest.testTicketTypeSelection(ticketType);}}*/
 
              //{"Event"}{"Incident"}{"Problem"}{"Request Fulfillment"}{"Change"}
-             String ticketType = "Problem";
+             String ticketType = "Incident";
              TicketProcessStage ticketProcessStage=new TicketProcessStage(incognitoDriver);
 
              switch(ticketType) {
@@ -77,13 +76,14 @@ public class LoginTest   {
                      break;
              }
          } catch (Exception e) {
+             ReportManager.logException(e);
+             ReportManager.captureScreenshot(driver,"Error");
              throw new RuntimeException("Test case failed due to an exception.", e);
 
         }finally {
              browserManager.closeAllBrowsers();
              extent.flush();
          }
-
     }
 }
 

@@ -19,7 +19,7 @@ import static pages.Problem.ProblemticketNumber;
 import static pages.RequestFulfilmentTTFlow.addstep;
 import static pages.ChangeTTFlow.addstepC;
 import static pages.ProblemTTFlow.addstepP;
-
+import static pages.EventTTFlow.addstepE;
 
 public class WebDriverManager {
     private BrowserManager browserManager = new BrowserManager();
@@ -82,6 +82,41 @@ public class WebDriverManager {
             System.out.println("Option not found for criteria: " + criteria);
         }
     }
+
+    public void selectByIndex(String locatorValue, int value)  {
+        try {
+            WebElement dropdown = driver.findElement(By.xpath(locatorValue));
+            Select dd = new Select(dropdown);
+            // Check if the dropdown has enough options to select
+            if (dd.getOptions().size() > value) {
+                dd.selectByIndex(value);
+            } else {
+                System.out.println("Option with index " + value + " is not available, proceeding to next step.");
+            }
+            // Find the label element associated with the dropdown
+            WebElement label = driver.findElement(By.xpath(locatorValue + "/preceding-sibling::label"));
+            // Check if the label contains a red-colored span with an asterisk (*)
+            boolean isMandatory = label != null &&
+                    label.findElement(By.xpath(".//span[@style='color:red']")) != null &&
+                    label.getText().contains("*");
+            // If field is mandatory and no selection is made, throw an exception
+            if (isMandatory && dd.getFirstSelectedOption() == null) {
+                throw new Exception("Mandatory field is not selected: " + locatorValue);
+            }
+            Thread.sleep(500);
+        } catch (Exception e) {
+            System.out.println("Dropdown element not found: " + locatorValue);
+        }
+    }
+
+
+    public void keys(String locatorValue, String value) throws InterruptedException {
+        WebElement input =  driver.findElement(By.xpath(locatorValue));
+        input.sendKeys(value);
+        Thread.sleep(500);
+    }
+
+
     public void reportedTime(){
          visibleMethod((XPathProvider.reportedTime));
         Actions action=new Actions(driver);
@@ -227,6 +262,18 @@ public class WebDriverManager {
          addstepC(driver,"Accept RFC Review - Submitted",true);
         submitTicket();
 }
+    public void ProblemResolved() throws InterruptedException {
+        //Problem Resolve
+         clickElement(XPathProvider.problemResolve1);
+         clickElement(XPathProvider.problemResolve2);
+        addstepE(driver,"Problem Resolved for :"+ ticketNumber,true);
+         submitTicket();
+        Thread.sleep(5000);
+         sendkeys("//div[@class='note-editable']","Closed Ticket");
+        addstepE(driver,"Close Ticket",true);
+         submitTicket();
+
+    }
 //Third party Ticket
 public void TPreturnToTTpage() throws InterruptedException {
     Thread.sleep(5000);
@@ -234,6 +281,16 @@ public void TPreturnToTTpage() throws InterruptedException {
     ProcessStage processStage=new ProcessStage(driver);
     processStage.Filter_ParentTicketType(ticketType);
     processStage.Third_selectToPickup();
+}
+    public static String thirtparty;
+
+public  void thirdTicketID() throws InterruptedException {
+    Thread.sleep(4000);
+    clickMethod("//a[@name='TroubleTicketDetails']");
+    WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@id, 'EIG-TT-G-') and contains(@class, 'cyg-keyValue-value')]")));
+    String extractedValue = element.getText();
+    thirtparty = (extractedValue);
+    System.out.println("Third Party Ticket ID : "+thirtparty);
 }
 //Incident Ticket
 
@@ -249,9 +306,7 @@ public void TPreturnToTTpage() throws InterruptedException {
         addstepI(driver,"Resolution Verification Status -Yes",true);
         submitTicket();
     }
-    public void ResolutionVerificationClosure(){
 
-    }
     public void causeIdentifiedCheckBox(){
          clickElement ("//input[@id='causeIdentifiedCheckBox']");
          addstepI(driver,"Cause Identification",true);

@@ -76,7 +76,8 @@ public class TicketTest {
             case "Change":
                 wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
                 Change change=new Change(driver);
-                change.changett();
+                change.changett("Email","ABU TALAT","Capacity Enhancement","General",
+                        "High","Traffic affecting","P1","High","Change Ticket for testing","src/test/resources/upload_files/empty.xls","src/test/resources/upload_files/ImpactedCircuits.xlsx");
                 break;
 
             case "Request Fulfillment":
