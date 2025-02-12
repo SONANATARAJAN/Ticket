@@ -13,7 +13,7 @@ public class TicketProcessStage {
         TicketAction ticketAction=new TicketAction(driver);
         EventTTFlow eventTTFlow=new EventTTFlow(driver);
         //1
-       /* System.out.println("case 1");
+        System.out.println("case 1");
         ticketAction.executeTicketProcess(ticketType);
         eventTTFlow.resoluationVeriFyStatus_yes();
         //2
@@ -24,24 +24,27 @@ public class TicketProcessStage {
         System.out.println("case 3");
         ticketAction.executeTicketProcess(ticketType);
         eventTTFlow.resoluationVeriFyStatus_no_noc_no_withoutV();
-        //4*/
+        //4
         System.out.println("case 4");
         ticketAction.executeTicketProcess(ticketType);
         eventTTFlow.resoluationVeriFyStatus_no_noc_no_withV();
         //5
-/*        System.out.println("case 5");
+        System.out.println("case 5");
         ticketAction.executeTicketProcess(ticketType);
-        eventTTFlow.resoluationVeriFyStatus_no_others_without();*/
-        //6
-        /*System.out.println("case 6");
+        eventTTFlow.resoluationVeriFyStatus_no_others_without();
+//        //6
+        System.out.println("case 6");
         ticketAction.executeTicketProcess(ticketType);
-         eventTTFlow.resoluationVeriFyStatus_no_others_with();*/
+        eventTTFlow.resoluationVeriFyStatus_no_others_with();
+
+        System.out.println("case 7");
+        eventTTFlow.resoluationVeriFyStatus_no_others_with_MLO();
     }
     public void IncidentProcessStage(String ticketType) throws InterruptedException{
       IncidentTTFlow incidentTTFlow=new IncidentTTFlow(driver);
         TicketAction ticketAction=new TicketAction(driver);
         //1
-        // /*    ticketAction.executeTicketProcess(ticketType);
+        ticketAction.executeTicketProcess(ticketType);
         incidentTTFlow.resolutionverify_yes_resolve();
         //2
         ticketAction.executeTicketProcess(ticketType);
@@ -65,10 +68,12 @@ public class TicketProcessStage {
         ticketAction.executeTicketProcess(ticketType);
         incidentTTFlow.resolutionverify_no_noc_no_withV();
         //9
- /*     ticketAction.executeTicketProcess(ticketType);
+        ticketAction.executeTicketProcess(ticketType);
         incidentTTFlow.resolutionverify_no_others_withoutTP_notResolved();
         //10
-         incidentTTFlow.resolutionverify_no_others_withTP_notResolved(); */
+        incidentTTFlow.resolutionverify_no_others_withTP_notResolved();
+        //11
+        incidentTTFlow.resolutionverify_no_others_withTP_MLO();
     }
     public void RequestFulfilmentStage(String ticketType) throws InterruptedException {
         TicketAction ticketAction=new TicketAction(driver);
@@ -81,7 +86,7 @@ public class TicketProcessStage {
         requestFulfilmentTTFlow.AprovalReq_no_applicable_no();
         //3
          ticketAction.executeTicketProcess(ticketType);
-        requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_no();
+         requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_no();
         //4
         requestFulfilmentTTFlow.AprovalReq_yes_validReq_yes_applicableReq_processReq();
          //5

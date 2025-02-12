@@ -50,7 +50,7 @@ public class TicketTest {
                 eventsTicket.createEvent(
                       "Email", "London",
                         "Business Continuity Plan", "Disaster Recovery", "S1", "P1",
-                        "High", "Service Affecting", "Warning", "Demo_Event_TT_sona",
+                        "High", "Service Affecting", "Warning", "Event ticket Testing",
                         "src/test/resources/upload_files/ImpactedCircuits.xlsx"
                 );
                 break;
@@ -60,8 +60,8 @@ public class TicketTest {
                 Incident incidentTicket = new Incident(driver);
                 incidentTicket.createIncident(
                           "Email", "London",
-                        "Circuit", "Loop", "BSNL", "EIG/FUJ/MRS/VC4/A1931",
-                        "S1", "P1", "High", "Incident-demo-sona",
+                        "Circuit", "Loop", "BSNL", "EIG/FUJ/MRS/VC4/A1932",
+                        "S1", "P1", "High", "Incident Ticket testing",
                         "src/test/resources/upload_files/empty.xls"
                 );
                 break;
@@ -70,7 +70,7 @@ public class TicketTest {
                 Problem problemTicket= new Problem(driver);
                 problemTicket.createProblem(
                          "Email", "London", "Terrestrial Segment",
-                        "S1", "S1", "P1", "High", "Problem_Demo",   "src/test/resources/upload_files/empty.xls"
+                        "S1", "S1", "P1", "High", "Problem Ticket Testing",   "src/test/resources/upload_files/empty.xls"
                 );
                 break;
             case "Change":
@@ -85,7 +85,7 @@ public class TicketTest {
                 RequestFulfillment requestFulfillmentTicket=new RequestFulfillment(driver);
                 requestFulfillmentTicket.createRequestfulfiment(
                         "Email", "London", "Testing",
-                        "MSP1+1 Testing", "London", "P1" , "Testing_RequestFulfilment_Demo_",   "src/test/resources/upload_files/empty.xls"
+                        "MSP1+1 Testing", "London", "P1" , "Request Fullfillment Ticket for Testing ",   "src/test/resources/upload_files/empty.xls"
                 );
                 break;
 

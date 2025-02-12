@@ -92,14 +92,27 @@ public class ReportManager {
     public static String captureScreenshot(WebDriver driver, String stepDetails) {
         if (test != null) {
             try {
+                // Sanitize step name for filename
                 String sanitizedStepDetails = stepDetails.replaceAll("[^a-zA-Z0-9]", "_");
                 String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+                // Define screenshot path
                 String screenshotPath = "/home/nsona/anos/Selenium/test-output/screenshots/"
                         + sanitizedStepDetails + "_" + timestamp + ".png";
+
+                // Capture screenshot as file
                 File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
                 File destFile = new File(screenshotPath);
                 FileUtils.copyFile(srcFile, destFile);
-                 return screenshotPath;
+
+                // Capture screenshot as Base64 (for embedding in report)
+                String base64Screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+
+                // Attach Base64 screenshot to Extent Report
+                test.addScreenCaptureFromBase64String(base64Screenshot, stepDetails);
+
+                return screenshotPath; // Returns file path for reference
+
             } catch (IOException e) {
                 System.err.println("Failed to save screenshot: " + e.getMessage());
                 e.printStackTrace();

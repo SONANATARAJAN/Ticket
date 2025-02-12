@@ -93,14 +93,11 @@ public class WebDriverManager {
             } else {
                 System.out.println("Option with index " + value + " is not available, proceeding to next step.");
             }
-            // Find the label element associated with the dropdown
-            WebElement label = driver.findElement(By.xpath(locatorValue + "/preceding-sibling::label"));
-            // Check if the label contains a red-colored span with an asterisk (*)
-            boolean isMandatory = label != null &&
+             WebElement label = driver.findElement(By.xpath(locatorValue + "/preceding-sibling::label"));
+             boolean isMandatory = label != null &&
                     label.findElement(By.xpath(".//span[@style='color:red']")) != null &&
                     label.getText().contains("*");
-            // If field is mandatory and no selection is made, throw an exception
-            if (isMandatory && dd.getFirstSelectedOption() == null) {
+             if (isMandatory && dd.getFirstSelectedOption() == null) {
                 throw new Exception("Mandatory field is not selected: " + locatorValue);
             }
             Thread.sleep(500);
@@ -144,7 +141,7 @@ public class WebDriverManager {
     }
     public void captureTicketId() {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
-        WebElement alert = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='content']//div[@class='message']")));
+        WebElement alert = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='content']//div[contains(text(), 'Successfully Added the Ticket')]")));
         String ticketId = alert.getText();
         ticketNumber = ticketId.split(":")[1].trim(); // Assign to static variable
         System.out.println("Full String: " + ticketId);
@@ -174,7 +171,16 @@ public class WebDriverManager {
         clickElement("//button[@id='Submit' and text()='Submit']");
     }
 
+    public void resoluationVeriFyStatus_no_others() throws InterruptedException{
+         clickElement(XPathProvider.causeIdentificationXpath);
+        addstepE(driver,"Cause Identification",true);
+         submitTicket();
+        Thread.sleep(5000);
+        addstepE(driver,"Resolution Verification Status - NO",true);
+         submitTicket();
+        Thread.sleep(5000);
 
+    }
 
     //Request Fulfilment
     public void approvalRequest_Yes(){
@@ -228,10 +234,10 @@ public class WebDriverManager {
 
     //change TT
     public void closeTT(){
-        sendkeys("//div[@class='note-editable']","Closed Ticket");
-        addstepC(driver,"Closed Ticket",true);
+         sendkeys("//div[@class='note-editable']","Closed Ticket");
+         addstepC(driver,"Closed Ticket",true);
         addstepP(driver,"Ticket Closed",true);
-        submitTicket();
+         submitTicket();
     }
     public void appealonRejectedRFCtogglebox_yes(){
         clickElement("//div[@id='appealonRejectedRFCtogglebox']//a[text()='Yes']");
@@ -272,7 +278,6 @@ public class WebDriverManager {
          sendkeys("//div[@class='note-editable']","Closed Ticket");
         addstepE(driver,"Close Ticket",true);
          submitTicket();
-
     }
 //Third party Ticket
 public void TPreturnToTTpage() throws InterruptedException {

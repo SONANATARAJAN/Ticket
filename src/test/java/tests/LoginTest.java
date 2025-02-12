@@ -21,7 +21,7 @@ public class LoginTest   {
     private final BrowserManager browserManager = new BrowserManager();
     public WebDriver driver;
     @Test
-    public void testValidLogin() throws InterruptedException {
+    public void testValidLogin() {
         ExtentReports extent = ReportManager.getExtentReports();
         ExtentTest test = extent.createTest("Test Case for Ticket Creation and Process Flow");
         ReportManager.setTest(test);
@@ -29,19 +29,20 @@ public class LoginTest   {
              WebDriver incognitoDriver = browserManager.getIncognitoDriver();
              incognitoDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
              WebDriverWait wait = new WebDriverWait(incognitoDriver, Duration.ofSeconds(50));
-             ReportManager.info("ChromeDriver initialized");
-             ReportManager.info("<b>Configuration Details:</b> Browser: Chrome<br>URL: "+ BASE_URL);
+              ReportManager.info("<b>Configuration Details:</b> Browser: Chrome<br>URL: "+ BASE_URL +"<br> username : "+ nocUserName);
              incognitoDriver.get(BASE_URL);
              incognitoDriver.manage().window().maximize();
              LoginPage loginPage = new LoginPage(incognitoDriver);
              loginPage.enterUsername(nocUserName);
              loginPage.enterPassword(nocPwd);
-             Thread.sleep(5000);
-             loginPage.clickLogin(XPathProvider.loginButtonXPath);
+           //  loginPage.forceLogout(incognitoDriver);
+             loginPage.forcelogout();
+              loginPage.clickLogin(XPathProvider.loginButtonXPath);
              loginPage.troubleTicket();
              incognitoDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-       /*   //Multiple Ticket Creation
-             for(int i=0;i<=1;i++) {
+
+          //Multiple Ticket Creation
+            /* for(int i=0;i<1;i++) {
                  System.out.println("count of : "+i);
                  List<String> ticketTypes = Arrays.asList("Event", "Incident", "Problem", "Request Fulfillment", "Change");
                  for (String ticketType : ticketTypes) {
