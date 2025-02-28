@@ -47,9 +47,9 @@ public class WebDriverManager {
         }
         ReportManager.pass(summary.toString());
     }
-    public static void sleep(int milliseconds) {
+    public static void sleep() {
         try {
-            Thread.sleep(milliseconds);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt(); // Restore interrupted state
             System.out.println("Sleep interrupted: " + e.getMessage());
@@ -137,7 +137,6 @@ public class WebDriverManager {
 
     public void Submit(){
         wait.until(ExpectedConditions.elementToBeClickable(By.id(XPathProvider.submit))).click();
-
     }
     public void captureTicketId() {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-wrapper")));
@@ -291,7 +290,7 @@ public void TPreturnToTTpage() throws InterruptedException {
 
 public  void thirdTicketID() throws InterruptedException {
     Thread.sleep(4000);
-    clickMethod("//a[@name='TroubleTicketDetails']");
+    clickMethod("//a[@name='TroubleTicketDetails']//span[text()='TroubleTicket Details']");
     WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@id, 'EIG-TT-G-') and contains(@class, 'cyg-keyValue-value')]")));
     String extractedValue = element.getText();
     thirtparty = (extractedValue);

@@ -42,9 +42,9 @@ public class LoginTest   {
              incognitoDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 
           //Multiple Ticket Creation
-            /* for(int i=0;i<1;i++) {
+            /* for(int i=0;i<6;i++) {
                  System.out.println("count of : "+i);
-                 List<String> ticketTypes = Arrays.asList("Event", "Incident", "Problem", "Request Fulfillment", "Change");
+                 List<String> ticketTypes = Arrays.asList("Event" );
                  for (String ticketType : ticketTypes) {
                      NewTicket ticket = new NewTicket(incognitoDriver);
                      ticket.newTicketClick(XPathProvider.newTicketXPath);
@@ -53,8 +53,8 @@ public class LoginTest   {
                      ticketTest.testTicketTypeSelection(ticketType);}}*/
 
              //{"Event"}{"Incident"}{"Problem"}{"Request Fulfillment"}{"Change"}
-             String ticketType = "Incident";
-             TicketProcessStage ticketProcessStage=new TicketProcessStage(incognitoDriver);
+              String ticketType = "Request Fulfillment";
+                 TicketProcessStage ticketProcessStage=new TicketProcessStage(incognitoDriver);
 
              switch(ticketType) {
                  case "Event":
@@ -82,7 +82,7 @@ public class LoginTest   {
              throw new RuntimeException("Test case failed due to an exception.", e);
 
         }finally {
-             browserManager.closeAllBrowsers();
+           //  browserManager.closeAllBrowsers();
              extent.flush();
          }
     }
